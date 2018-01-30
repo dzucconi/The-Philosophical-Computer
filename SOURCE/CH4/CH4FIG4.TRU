@@ -1,0 +1,85 @@
+1 REM Glider in Conway's Life
+2 REM Programming elements included here were developed in background 
+3 REM research for Patrick Grim, Gary Mar, and Paul St. Denis, THE 
+4 REM PHILOSOPHICAL COMPUTER: EXPLORATORY ESSAYS IN PHILOSOPHICAL COMPUTER 
+5 REM MODELING, Bradford Books/MIT press.  You are free to use and adapt 
+6 REM this program for research purposes only, subject to the provision 
+7 REM that this message be retained in its entirety as part of your 
+8 REM program.
+120 SET WINDOW 0,639,0,479
+121 set color 15
+122 box area 0,640,203,480
+123 box area 203,640,0,480
+140 OPTION NOLET
+260 DIM NG(15,15)
+270 DIM OG(15,15)
+290 DIM LEFT(15)
+300 DIM RIGHT(15)
+310 DIM UPPER(15)
+320 DIM LOWER(15)
+340 DIM GRIDSCORE(15,15)
+361 dim sscore(15,15)
+362 dim nscore(15,15)
+363 dim escore(15,15)
+364 dim wscore(15,15)
+365 dim nwscore(15,15)
+366 dim nescore(15,15)
+367 dim swscore(15,15)
+368 dim sescore(15,15)
+369 dim tscore(15,15)
+370 LET RAD = .01
+380 FOR X = 1 TO 15
+390 FOR Y = 1 TO 15
+410 OG(X,Y)=0
+430 NEXT Y
+440 NEXT X
+441 Rem Define initial glider configuration:
+520 OG(2,10) = 1
+530 OG(3,10)=1
+540 OG(4,10) =1
+550 OG(4,11)=1
+560 OG(3,12) = 1
+610 MAT NG=OG
+620 FOR N = 1 TO 15
+630 let left(n) = n-1
+640 LET RIGHT(N)=N+1
+650 LET LOWER(N)=N-1
+660 LET UPPER(N)=N+1
+670 NEXT N
+680 LET LEFT(1)=15
+690 LET RIGHT(15)=1
+700 LET LOWER(1)=15
+710 LET UPPER(15)=1
+770 FOR X = 1 TO 15
+780 FOR Y = 1 TO 15
+781 let sscore(x,y) = og(x, lower (y))
+782 let nscore(x,y) = og(x, upper (y))
+783 let wscore(x,y) = og(left(x), y)
+784 let escore (x,y) = og(right(x), y)
+785 let swscore(x,y) = og(left(x), lower(y))
+786 let nwscore(x,y)  = og(left(x), upper(y))
+787 let sescore(x,y) = og(right(x), lower(y))
+788 let nescore(x,y) = og(right(x), upper(y))
+789 let tscore(x,y) = sscore(x,y)+nscore(x,y)+wscore(x,y)+escore(x,y)+swscore(x,y)+nwscore(x,y)+sescore(x,y)+nescore(x,y)
+880 NEXT Y
+890 NEXT X
+900 FOR X = 1 TO 15
+910 FOR Y = 1 TO 15
+920 if og(x,y) = 0 and tscore(x,y) = 3 then ng(x,y) = 1
+921 if og(x,y) = 1 and tscore(x,y) < 2 then ng(x,y) = 0
+922 if og(x,y) = 1 and tscore(x,y) >3 then ng(x,y) = 0
+1280 SET COLOR OG(X,Y)+1
+1290 BOX AREA X*12,X*12+9,Y*12,Y*12+9
+1310 NEXT Y
+1320 NEXT X
+1330 MAT OG=NG
+1340 REM        ASSIGNS THE WHOLE ARRAY "NG" TO THE ARRAY "OG"
+1341 dim r(39000)
+1350 for n = 1 to 39000
+1351 r(n) = n!
+1352 next n
+1353 z = 0
+1354 for l = 1 to 100
+1355 next l
+1360 GOTO 770
+1780 END

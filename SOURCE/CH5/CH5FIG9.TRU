@@ -1,0 +1,75 @@
+100 REM Chapter 5 Figure 9
+110 REM Programming elements included here were developed in background 
+120 REM research for Patrick Grim, Gary Mar, and Paul St. Denis, THE
+130 REM PHILOSOPHICAL COMPUTER: EXPLORATORY ESSAYS IN PHILOSOPHICAL
+140 REM COMPUTER MODELING, Bradford Books/MIT Press.  You are free to 
+150 REM use and adapt this program for research purposes only, subject to
+160 REM the provision that this message be retained in its entirety as 
+170 REM part of your program.
+180 option nolet
+190 let xg= 639
+200 let yg= 479
+210 dim s(9)
+220 set window 0,xg,0,yg
+230 set color 15
+240 box area 0,xg,0,yg
+250 set color 0
+260 box area 0,148,yg-0,yg-148
+270 dim c(9)
+280 def fnand(p,q)=max(0,p+q-1)
+290 def fnor(p,q)=min(1,p+q)
+300 dim ng(64,64)
+310 AL = .919   
+320 GSZ=19
+330 cx=220
+340 cy=150
+350 cen =int (gsz/2)+1
+360 dim Og(64,64)
+370 dim left(64)
+380 dim right(64)
+390 dim upper(64)
+400 dim lower(64)
+410 for t = 1 to gsz
+420 for u = 1 to gsz
+430 og(t,u)=0
+440 next u 
+450 next t
+460 for n = 1 to GSZ
+470 let left(n)=n-1
+480 let right(n)=n+1
+490 let upper(n)=n-1
+500 let lower(n)=n+1
+510 next n
+520 let left(1)=GSZ
+530 let right(GSZ)=1
+540 let upper(1)=GSZ
+550 let lower(GSZ)=1
+560 OG(CEN,CEN)=al
+570 for cy = 1 to 2
+580 for cx = 1 to 5
+590 set cursor 1,59
+600 for x = 1 to GSZ
+610 for y = 1 to GSZ
+620 let C(1)=og(left(x),upper(y))
+630 let C(2)=og(x,upper(y))
+640 let C(3)=og(right(x),upper(y))
+650 let C(4)=og(left(x),y)
+660 let C(9)=og(x,y)
+670 let C(6)=og(right(x),y)
+680 let C(7)=og(left(x),lower(y))
+690 let C(8)=og(x,LOWER(y))
+700 let C(5)=og(right(x),lower(y))
+710 FOR H= 1 TO 8
+720 SUM = SUM+C(H)
+730 NEXT H
+740 POP=SUM
+750 SUM =0
+760 ng(x,y)=1-abs((1-pop)-pop)
+770 set color 15-(oG(X,Y)*15)
+780 box area x*7,x*7+5,yg-(y*7),yg-(y*7+5)
+790 next y
+800 next x
+810 MAT OG=NG
+860 next cx
+870 next cy
+880 END

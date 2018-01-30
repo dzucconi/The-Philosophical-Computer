@@ -1,0 +1,212 @@
+1000 ! Strategy bomb
+1010 ! Programming fundamentals were developed in research outlined in 
+1020 ! Patrick Grim, Gary Mar, and Paul St. Denis, THE PHILOSOPHICAL 
+1030 ! COMPUTER: EXPLORATORY ESSAYS IN PHILOSOPHICAL COMPUTER MODELING, 
+1040 ! Bradford Books/MIT Press.  You are free to use and adapt the program
+1050 ! for research purposes only, subject to the provision that this 
+1060 ! message be retained in its entirety as part of your program.
+1070 OPTION NOLET
+1080 RANDOMIZE
+1090 SET WINDOW 0,639,0,479
+1100 dim score (6,6)
+1110 bb = 2.412
+1120 br = 2.534
+1130 by = 2.472
+1140 bp = 3.000
+1150 bm = 2.412
+1160 bn  = .857
+1170 rb = 2.485
+1180 rr = 2.412
+1190 ry = 2.472
+1200 rp = 2.542
+1210 rm = 2.485
+1220 rn = .857
+1230 pb = 2.583
+1240 pr = 2.567
+1250 py = 2.472
+1260 pp = 2.412
+1270 pm = 0 ! doesn't matter
+1280 pn = .857
+1290 yb = .868
+1300 yr = .868 
+1310 yy = 2.667
+1320 yp = .868
+1330 yg = .857
+1340 yf = 0 ! doesn't matter
+1350 mb = 2.412      
+1360 mr = 2.534
+1370 mp = 3.000
+1380 my = 2.472
+1390 mm = 2.412
+1400 mn = 2.472
+1410 nb = 4.428
+1420 nr = 4.428
+1430 np = 4.428
+1440 ny = 4.428
+1450 nm = .868
+1460 nn = 2.667
+1470 set color 15
+1480 set cursor 1,1
+1490 set color 15
+1500 box area 0,640,260,480
+1510 box area 270,640,0,480
+1520 score (1,1) = bb
+1530 score (1,4) = by
+1540 score (1,3) = bp
+1550 score (1,2) = br
+1560 score (1,5) = bm
+1570 score (1,6) = bn
+1580 score (2,1) = rb
+1590 score (2,4) = ry
+1600 score (2,3) = rp
+1610 score (2,2) = rr
+1620 score (2,5) = rm
+1630 score (2,6) = rn
+1640 score (3,1) = pb
+1650 score (3,4) = py
+1660 score (3,3) = pp
+1670 score (3,2) = pr
+1680 score (3,5) = pm
+1690 score (3,6) = pn
+1700 score (4,1) = yb
+1710 score (4,4) = yy
+1720 score (4,2) = yr
+1730 score (4,3) = yp
+1740 score (4,5) = ym
+1750 score (4,6) = yn
+1760 score (5,1) = mb
+1770 score (5,2) = mr
+1780 score (5,3) = mp
+1790 score (5,4) = my
+1800 score (5,5) = mm
+1810 score (5,6) = mn
+1820 score (6,1) = nb
+1830 score (6,2) = nr
+1840 score (6,3) = np
+1850 score (6,4) = ny
+1860 score (6,5) = nm
+1870 score (6,6) = nn
+1880 DIM HC(150)
+1890 DIM SUM1SCORE(100)
+1900 DIM SUM2SCORE(100)
+1910 DIM RPICK(2,100)
+1920 DIM NG(25,25)
+1930 DIM OG(25,25)
+1940 DIM LEFT(25)
+1950 DIM RIGHT(25)
+1960 DIM UPPER(25)
+1970 DIM LOWER(25)
+1980 DIM SC(100)
+1990 DIM GRIDSCORE(25,25)
+2000 DIM H(9)
+2010 DIM S(9)
+2020 FOR X = 1 TO 25
+2030 FOR Y = 1 TO 25
+2040 og(x,y) = 4
+2050 next y
+2060 next x
+2070 for x = 12 to 14
+2080 for y = 15 to 17
+2090 let og(x,y) = 6
+2100 next y
+2110 next x
+2120 for x = 15 to 15
+2130 for y = 14 to 18
+2140 let og(x,y) = 5
+2150 next y
+2160 next x
+2170 for x = 11 to 11
+2180 for y = 14 to 18
+2190 let og(x,y) = 5
+2200 next y
+2210 next x
+2220 for x = 11 to 15
+2230 for y = 14 to 14
+2240 let og(x,y) = 5
+2250 next y
+2260 next x
+2270 for x = 11 to 15
+2280 for y = 18 to 18
+2290 let og(x,y) = 5
+2300 next y
+2310 next x
+2320 for x = 13 to 13
+2330 for y = 1 to 13
+2340 let og(x,y) = 1
+2350 next y
+2360 next x
+2370 let og(13,6) = 2
+2380 let og(13,5) = 3
+2390 MAT NG=OG
+2400 FOR N = 1 TO 25
+2410 LET LEFT(N)=N-1
+2420 LET RIGHT(N)=N+1
+2430 LET LOWER(N)=N-1
+2440 LET UPPER(N)=N+1
+2450 NEXT N
+2460 LET LEFT(1)=25
+2470 LET RIGHT(25)=1
+2480 LET LOWER(1)=25
+2490 LET UPPER(25)=1
+2500 SET CURSOR 3, 42
+2510 FOR X = 1 TO 25
+2520 FOR Y = 1 TO 25
+2530 LET SSCORE=SCORE(OG(X,Y),OG(X,LOWER(Y)))
+2540 LET NSCORE=SCORE(OG(X,Y),OG(X,UPPER(Y)))
+2550 LET WSCORE=SCORE(OG(X,Y),OG(LEFT(X),Y))
+2560 LET ESCORE=SCORE(OG(X,Y),OG(RIGHT(X),Y))
+2570 LET SWSCORE=SCORE(OG(X,Y),OG(LEFT(X),LOWER(Y)))
+2580 LET NWSCORE=SCORE(OG(X,Y),OG(LEFT(X),UPPER(Y)))
+2590 LET SESCORE=SCORE(OG(X,Y),OG(RIGHT(X),LOWER(Y)))
+2600 LET NESCORE=SCORE(OG(X,Y),OG(RIGHT(X),UPPER(Y)))
+2610 GRIDSCORE(X,Y)=NSCORE+SSCORE+ESCORE+WSCORE+NWSCORE+NESCORE+SWSCORE+SESCORE
+2620 NEXT Y
+2630 NEXT X
+2640 FOR X = 1 TO 25
+2650 FOR Y = 1 TO 24
+2660 H(1)=GRIDSCORE(X,UPPER(Y))
+2670 S(1)=OG(X,UPPER(Y))
+2680 H(2)=GRIDSCORE(RIGHT(X),UPPER(Y))
+2690 S(2)=OG(RIGHT(X),UPPER(Y))
+2700 H(3)=GRIDSCORE(RIGHT(X),Y)
+2710 S(3)=OG(RIGHT(X),Y)
+2720 H(4)=GRIDSCORE(RIGHT(X),LOWER(Y))
+2730 S(4)=OG(RIGHT(X),LOWER(Y))
+2740 H(5)=GRIDSCORE((X),LOWER(Y))
+2750 S(5)=OG(X,LOWER(Y))
+2760 H(6)=GRIDSCORE(LEFT(X),LOWER(Y))
+2770 S(6)=OG(LEFT(X),LOWER(Y))
+2780 H(7)=GRIDSCORE(LEFT(X),Y)
+2790 S(7)=OG(LEFT(X),Y)
+2800 H(8)=GRIDSCORE(LEFT(X),UPPER(Y))
+2810 S(8)=OG(LEFT(X),UPPER(Y))
+2820 H(9)=GRIDSCORE(X,Y)
+2830 S(9)=OG(X,Y)
+2840 ST = INT(RND*8)+1
+2850 FOR R= ST TO 8
+2860 IF H(R)<HIGH THEN 2890
+2870 HIGH=H(R)
+2880 WINSTRAT=S(R)
+2890 NEXT R
+2900 FOR R = 1 TO ST-1
+2910 IF H(R)<HIGH THEN 2940
+2920 HIGH=H(R)
+2930 WINSTRAT=S(R)
+2940 NEXT R
+2950 IF H(9)>= HIGH THEN WINSTRAT=S(9)
+2960 LET OLDCOL=OG(X,Y)
+2970 LET NEWCOL=WINSTRAT
+2980 NG(X,Y)=WINSTRAT
+2990 HIGH=0
+3000 IF OG(X,Y) = 1 THEN SET COLOR 1
+3010 IF OG(X,Y) = 4 THEN SET COLOR 14
+3020 if og(x,y) = 3 then set color 13
+3030 if og(x,y) = 2 then set color 4
+3040 if og(x,y) = 5 then set color 0
+3050 if og(x,y) = 6 then set color 10
+3060 BOX AREA X*10,X*10+7,Y*10,Y*10+7
+3070 NEXT Y
+3080 NEXT X
+3090 MAT OG=NG
+3100 goto 2500
+3110 end

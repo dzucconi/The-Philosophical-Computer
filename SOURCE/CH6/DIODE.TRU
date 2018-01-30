@@ -1,0 +1,174 @@
+1000 ! Diode operating left to right
+1010 ! Programming fundamentals were developed in research outlined in 
+1020 ! Patrick Grim, Gary Mar, and Paul St. Denis, THE PHILOSOPHICAL 
+1030 ! COMPUTER: EXPLORATORY ESSAYS IN PHILOSOPHICAL COMPUTER MODELING, 
+1040 ! Bradford Books/MIT Press.  You are free to use and adapt the program
+1050 ! for research purposes only, subject to the provision that this 
+1060 ! message be retained in its entirety as part of your program.
+1070 OPTION NOLET
+1080 RANDOMIZE
+1090 SET WINDOW 0,639,0,479
+1100 dim score (4,4)
+1110 bb = 2.412
+1120 br = 2.534
+1130 by = 2.472
+1140 bp = 3.000
+1150 rb = 2.485
+1160 rr = 2.412
+1170 ry = 2.472
+1180 rp = 2.542
+1190 pb = 2.583
+1200 pr = 2.567
+1210 py = 2.472
+1220 pp = 2.412
+1230 yb = .868
+1240 yr = .868
+1250 yy = 2.667
+1260 yp = .868
+1270 score (1,1) = bb
+1280 score (1,4) = by
+1290 score (1,3) = bp
+1300 score (1,2) = br
+1310 score (2,1) = rb
+1320 score (2,4) = ry
+1330 score (2,3) = rp
+1340 score (2,2) = rr
+1350 score (3,1) = pb
+1360 score (3,4) = py
+1370 score (3,3) = pp
+1380 score (3,2) = pr
+1390 score (4,1) = yb
+1400 score (4,4) = yy
+1410 score (4,2) = yr
+1420 score (4,3) = yp
+1430 DIM HC(150)
+1440 DIM SUM1SCORE(100)
+1450 DIM SUM2SCORE(100)
+1460 DIM RPICK(2,100)
+1470 set color 15
+1480 box area 0,640,330,480
+1490 box area 330,640,0,480
+1500 DIM NG(20,20)
+1510 DIM OG(20,20)
+1520 DIM LEFT(20)
+1530 DIM RIGHT(20)
+1540 DIM UPPER(20)
+1550 DIM LOWER(20)
+1560 DIM SC(100)
+1570 DIM GRIDSCORE(20,20)
+1580 DIM H(9)
+1590 DIM S(9)
+1600 ! Defining diode:
+1610 FOR X = 1 TO 20
+1620 FOR Y = 1 TO 20
+1630 og(x,y) = 4
+1640 next y
+1650 next x
+1660 for x = 1 to 8
+1670 for y = 11 to 11
+1680 og(x,y) = 1
+1690 next y
+1700 next x
+1710 for x = 13 to 20
+1720 for y = 11 to 11
+1730 og(x,y) = 1
+1740 next y
+1750 next x
+1760 for x = 13 to 13
+1770 for y = 8 to 14
+1780 og(x,y) = 1
+1790 next y
+1800 next x
+1810 for x = 8 to 8
+1820 for y = 11 to 14
+1830 og(x,y) = 1
+1840 next y
+1850 next x
+1860 for x = 9 to 9
+1870 for y = 8 to 10
+1880 og(x,y) = 1
+1890 next y
+1900 next x
+1910 for x = 10 to 12
+1920 for y = 7 to 7
+1930 og(x,y) = 1
+1940 next y
+1950 next x
+1960 for x = 9 to 12
+1970 for y = 15 to 15
+1980 og(x,y) = 1
+1990 next y
+2000 next x
+2010 ! original electron position:
+2020 og(4,11) = 2
+2030 og(3,11) = 3 
+2040 MAT NG=OG
+2050 FOR N = 1 TO 20
+2060 LET LEFT(N)=N-1
+2070 LET RIGHT(N)=N+1
+2080 LET LOWER(N)=N-1
+2090 LET UPPER(N)=N+1
+2100 NEXT N
+2110 LET LEFT(1)=20
+2120 LET RIGHT(20)=1
+2130 LET LOWER(1)=20
+2140 LET UPPER(20)=1
+2150 FOR X = 1 TO 20
+2160 FOR Y = 1 TO 20
+2170 LET SSCORE=SCORE(OG(X,Y),OG(X,LOWER(Y)))
+2180 LET NSCORE=SCORE(OG(X,Y),OG(X,UPPER(Y)))
+2190 LET WSCORE=SCORE(OG(X,Y),OG(LEFT(X),Y))
+2200 LET ESCORE=SCORE(OG(X,Y),OG(RIGHT(X),Y))
+2210 LET SWSCORE=SCORE(OG(X,Y),OG(LEFT(X),LOWER(Y)))
+2220 LET NWSCORE=SCORE(OG(X,Y),OG(LEFT(X),UPPER(Y)))
+2230 LET SESCORE=SCORE(OG(X,Y),OG(RIGHT(X),LOWER(Y)))
+2240 LET NESCORE=SCORE(OG(X,Y),OG(RIGHT(X),UPPER(Y)))
+2250 GRIDSCORE(X,Y)=NSCORE+SSCORE+ESCORE+WSCORE+NWSCORE+NESCORE+SWSCORE+SESCORE
+2260 NEXT Y
+2270 NEXT X
+2280 FOR X = 1 TO 20
+2290 FOR Y = 1 TO 20
+2300 H(1)=GRIDSCORE(X,UPPER(Y))
+2310 S(1)=OG(X,UPPER(Y))
+2320 H(2)=GRIDSCORE(RIGHT(X),UPPER(Y))
+2330 S(2)=OG(RIGHT(X),UPPER(Y))
+2340 H(3)=GRIDSCORE(RIGHT(X),Y)
+2350 S(3)=OG(RIGHT(X),Y)
+2360 H(4)=GRIDSCORE(RIGHT(X),LOWER(Y))
+2370 S(4)=OG(RIGHT(X),LOWER(Y))
+2380 H(5)=GRIDSCORE((X),LOWER(Y))
+2390 S(5)=OG(X,LOWER(Y))
+2400 H(6)=GRIDSCORE(LEFT(X),LOWER(Y))
+2410 S(6)=OG(LEFT(X),LOWER(Y))
+2420 H(7)=GRIDSCORE(LEFT(X),Y)
+2430 S(7)=OG(LEFT(X),Y)
+2440 H(8)=GRIDSCORE(LEFT(X),UPPER(Y))
+2450 S(8)=OG(LEFT(X),UPPER(Y))
+2460 H(9)=GRIDSCORE(X,Y)
+2470 S(9)=OG(X,Y)
+2480 ST = INT(RND*8)+1
+2490 FOR R= ST TO 8
+2500 IF H(R)<HIGH THEN 2530
+2510 HIGH=H(R)
+2520 WINSTRAT=S(R)
+2530 NEXT R
+2540 FOR R = 1 TO ST-1
+2550 IF H(R)<HIGH THEN 2580
+2560 HIGH=H(R)
+2570 WINSTRAT=S(R)
+2580 NEXT R
+2590 IF H(9)>= HIGH THEN WINSTRAT=S(9)
+2600 LET OLDCOL=OG(X,Y)
+2610 LET NEWCOL=WINSTRAT
+2620 NG(X,Y)=WINSTRAT
+2630 HIGH=0
+2640 IF OG(X,Y) = 1 THEN SET COLOR 1
+2650 IF OG(X,Y) = 4 THEN SET COLOR 14
+2660 if og(x,y) = 3 then set color 13
+2670 if og(x,y) = 2 then set color 4
+2680 BOX AREA 3*X*5,3*X*5+11,3*Y*5,3*Y*5+11
+2690 NEXT Y
+2700 NEXT X
+2720 MAT OG=NG
+2750 goto 2150
+2760 end

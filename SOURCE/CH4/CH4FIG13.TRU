@@ -1,0 +1,169 @@
+1000 REM Invasion of <0.9999999, 0.3333333> by a 16-block unit of 
+1010 REM <0.9999999,0.9999999>
+1020 REM Programming elements included here were developed in background 
+1030 REM research for Patrick Grim, Gary Mar, and Paul St. Denis, THE
+1040 REM PHILOSOPHICAL COMPUTER: EXPLORATORY ESSAYS IN PHILOSOPHICAL
+1050 REM COMPUTER MODELING, Bradford Books/MIT Press.  You are free to 
+1060 REM use and adapt this program for research purposes only, subject to
+1070 REM the provision that this message be retained in its entirety as 
+1071 REM part of your program.
+1080 SET WINDOW 0,639,0,479
+1090 OPTION NOLET
+1100 DIM PLAYERS (8,8)
+1110 DIM STRATSCORE (8,8)
+1120 dim t2(8)
+1130 dim t3(8)
+1140 DEF fnc(x,y) = (t3(x) + (t2(x) - t3(x)) * t3(y))/ (1-(t2(x)-t3(x))*(t2(y)-t3(y)))
+1150 def fnz(x,y) = (t3(y) + (t2(y) - t3(y)) * t3(x))/(1-(t2(x)-t3(x))*(t2(y)-t3(y)))
+1160 DEF FNMATRIX(X,Y)= 1 + 4*fnz(x,y) - fnc(x,y)- (fnc(x,y)*fnz(x,y))
+1170 DIM NG(66,66)
+1180 DIM OG(66,66)
+1190 DIM SCORE(8,8)
+1200 DIM LEFT(66)
+1210 DIM RIGHT(66)
+1220 DIM UPPER(66)
+1230 DIM LOWER(66)
+1240 dim sc(6000)
+1250 DIM GRIDSCORE(66,66)
+1260 DIM H(9)
+1270 DIM S(9)
+1280 let rad = .01
+1290 FOR X = 1 TO 66
+1300 FOR Y = 1 TO 66
+1310 st=INT(RND*8)+1
+1320 og(x,y)=2
+1330 sc(st)=sc(st)+1
+1340 nEXT Y
+1350 NEXT X
+1360 og (32,33) = 3
+1370 og (32,32) = 3
+1380 og (32, 34) = 3
+1390 og (32, 35) = 3
+1400 og (33, 32) = 3
+1410 og (34, 32) = 3
+1420 og (35, 32) = 3
+1430 og(33,33) = 3
+1440 og(33,34)=3
+1450 og(34,34) =3
+1460 og(34,33)=3
+1470 og(33,35) = 3
+1480 og(34,35) =3
+1490 og(35,35)=3
+1500 og(35,34)=3
+1510 og(35,33)=3
+1520 mat ng=og
+1530 FOR N = 1 TO 66
+1540 LET LEFT(N)=N-1
+1550 LET RIGHT(N)=N+1
+1560 LET lower(N)=N-1
+1570 LET upper(N)=N+1
+1580 NEXT N
+1590 LET LEFT(1)=66
+1600 LET RIGHT(66)=1
+1610 LET lower(1)=66
+1620 LET upper(66)=1
+1630 gosub 2520
+1640 goto 1650      
+1650 gen = gen+1
+1660 set cursor 12, 65
+1670 print gen
+1680 FOR X = 1 TO 66
+1690 FOR Y = 1 TO 66
+1700 LET SSCORE=SCORE(OG(X,Y),OG(X,lower(Y)))
+1710 LET NSCORE=SCORE(OG(X,Y),OG(X,upper(Y)))
+1720 LET WSCORE=SCORE(OG(X,Y),OG(LEFT(X),Y))
+1730 LET ESCORE=SCORE(OG(X,Y),OG(RIGHT(X),Y))
+1740 LET SWSCORE=SCORE(OG(X,Y),OG(LEFT(X),lower(Y)))
+1750 LET NWSCORE=SCORE(OG(X,Y),OG(left(X),UPPER(Y)))
+1760 LET SESCORE=SCORE(OG(X,Y),OG(right(X),LOWER(Y)))
+1770 LET NESCORE=SCORE(OG(X,Y),OG(RIGHT(X),UPPER(Y)))
+1780 GRIDSCORE(X,Y)=NSCORE+SSCORE+ESCORE+WSCORE+NWSCORE+NESCORE+SWSCORE+SESCORE
+1790 NEXT Y
+1800 NEXT X
+1810 FOR X = 1 TO 66
+1820 FOR Y = 1 TO 66
+1830 H(1)=GRIDSCORE(X,UPPER(Y))
+1840 S(1)=OG(X,UPPER(Y))
+1850 H(2)=GRIDSCORE(RIGHT(X),UPPER(Y))
+1860 S(2)=OG(RIGHT(X),UPPER(Y))
+1870 H(3)=GRIDSCORE(right(X),Y)
+1880 S(3)=OG(right(X),Y)
+1890 H(4)=GRIDSCORE(RIGHT(X),LOWER(Y))
+1900 S(4)=OG(RIGHT(X),LOWER(Y))
+1910 H(5)=GRIDSCORE((X),lower(Y))
+1920 S(5)=OG(X,lower(Y))
+1930 H(6)=GRIDSCORE(left(x),lower(Y))
+1940 S(6)=OG(left(X),lower(Y))
+1950 H(7)=GRIDSCORE(left(X),Y)
+1960 S(7)=OG(left(X),Y)
+1970 H(8)=GRIDSCORE(left(x),upper(Y))
+1980 S(8)=OG(left(X),upper(Y))
+1990 H(9)=GRIDSCORE(X,Y)
+2000 S(9)=OG(X,Y)
+2010 ST = INT(RND*8)+1
+2020 FOR R= st to 8
+2030 IF H(R)<HIGH THEN 2060
+2040 HIGH=H(R)
+2050 WINSTRAT=S(R)
+2060 NEXT R
+2070 FOR R = 1 to ST-1
+2080 IF H(R)<HIGH THEN 2110
+2090 HIGH=H(R)
+2100 WINSTRAT=S(R)
+2110 NEXT R
+2120 IF H(9)>= HIGH THEN winstrat=s(9)
+2130 let oldcol=og(x,y)
+2140 let newcol=winstrat
+2150 sc(oldcol)=sc(oldcol)-1
+2160 NG(X,Y)=WINSTRAT
+2170 sc(newcol)=sc(newcol)+1
+2180 HIGH=0
+2190 if gen=1 then set color og(x,y) + 1 else goto 2210
+2200 goto 2240
+2210 if oldcol=newcol then set color og(x,y) + 1 else goto 2230
+2220 goto 2240
+2230 if oldcol>newcol then set color 10 else set color 14 
+2240 BOX AREA X*4,X*4+2,Y*4,Y*4+2
+2250 NEXT Y
+2260 NEXT X
+2270 MAT OG=NG
+2280 GOTO 1640
+2290 FOR Y = 1 TO 8
+2300 SET COLOR Y+1
+2310 BOX AREA 458,463,480-(y*16+5),480-(Y*16+10)
+2320 NEXT Y
+2330 RETURN
+2340 for x = 1 to 64
+2350 for y = 1 to 64
+2360 sp = INT(RND*8)+1
+2370 if sp = 8 then gosub 2410 else goto 2380
+2380 next y
+2390 next x
+2400 return
+2410 t2(l)=e
+2420 t3(l)=f
+2430 mutstrat=og(x,y)
+2440 sc(mutstrat)=sc(mutstrat)-1
+2450 og(x,y)=l
+2460 sc(og(x,y))=sc(og(x,y)) + 1
+2470 return
+2480 x=l
+2490 gosub 2620
+2500 rem: sc(l)=1
+2510 return
+2520 let t2(2) = .999999
+2530 let t3(2) = .333333
+2540 let t2(3) = .999999
+2550 let t3(3) = .999999
+2560 FOR X= 1 TO 8
+2570 FOR Y= 1 TO 8
+2580 let score(x,y) = fnmatrix (x,y)
+2590 next y
+2600 next x
+2610 return
+2620 FOR Y= 1 TO 8
+2630 LET SCORE(X,Y)=fnmatrix(x,y)
+2640 LET SCORE(y,x)=fnmatrix(y,x)
+2650 NEXT Y
+2660 return
+2670 end

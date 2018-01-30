@@ -1,0 +1,99 @@
+1000 REM The Cheshire Cat in Real Life
+1010 REM Programming elements included here were developed in background 
+1020 REM research for Patrick Grim, Gary Mar, and Paul St. Denis, THE
+1030 REM PHILOSOPHICAL COMPUTER: EXPLORATORY ESSAYS IN PHILOSOPHICAL
+1040 REM COMPUTER MODELING, Bradford Books/MIT Press.  You are free to 
+1050 REM use and adapt this program for research purposes only, subject to
+1060 REM the provision that this message be retained in its entirety as 
+1070 REM part of your program.
+1080 option nolet
+1090 let xg= 639
+1100 let yg= 479
+1110 dim s(9)
+1120 set window 0,xg,0,yg
+1130 set color 15
+1140 box area 0,xg,0,yg
+1150 set color 0
+1160 box area 0,153,yg-0,yg-153
+1170 dim c(9)
+1180 def fnand(p,q)=max(0,p+q-1)
+1190 def fnor(p,q)=min(1,p+q)
+1200 dim ng(64,64)
+1201 REM next line sets initial value of cells:
+1210 AL = .667
+1220 GSZ=20
+1230 cx=250
+1240 cy=150
+1250 cen =int (gsz/2)
+1260 dim Og(64,64)
+1270 dim left(64)
+1280 dim right(64)
+1290 dim upper(64)
+1300 dim lower(64)
+1310 for t = 1 to gsz
+1320 for u = 1 to gsz
+1330 og(t,u)=0
+1340 next u 
+1350 next t
+1360 for n = 1 to GSZ
+1370 let left(n)=n-1
+1380 let right(n)=n+1
+1390 let upper(n)=n-1
+1400 let lower(n)=n+1
+1410 next n
+1420 let left(1)=GSZ
+1430 let right(GSZ)=1
+1440 let upper(1)=GSZ
+1450 let lower(GSZ)=1
+1460 OG(CEN,CEN)=al
+1470 OG(CEN+1,CEN)=al
+1480 OG(CEN+3,CEN)=al
+1490 OG(CEN+3,CEN+1)=al
+1500 OG(CEN+3,CEN-1)=al
+1510 OG(CEN+2,CEN+2)=al
+1520 OG(CEN+2,CEN-2)=al
+1530 OG(CEN+2,CEN-3)=al
+1540 OG(CEN+1,CEN+2)=al
+1550 OG(CEN+1,CEN-2)=al
+1560 OG(CEN,CEN+2)=al
+1570 OG(CEN,CEN-2)=al
+1580 OG(CEN-1,CEN+2)=al
+1590 OG(CEN-1,CEN-2)=al
+1600 OG(CEN-1,CEN-3)=al
+1610 OG(CEN-2,CEN)=al
+1620 OG(CEN-2,CEN+1)=al
+1630 OG(CEN-2,cen-1)=al
+1640 for cy = 1 to yg step gsz *8
+1650 for cx = 1 to xg step gsz *8
+1680 set cursor 1,59
+1690 for x = 1 to GSZ
+1700 for y = 1 to GSZ
+1710 let C(1)=og(left(x),upper(y))
+1720 let C(2)=og(x,upper(y))
+1730 let C(3)=og(right(x),upper(y))
+1740 let C(4)=og(left(x),y)
+1750 let C(9)=og(x,y)
+1760 let C(6)=og(right(x),y)
+1770 let C(7)=og(left(x),lower(y))
+1780 let C(8)=og(x,LOWER(y))
+1790 let C(5)=og(right(x),lower(y))
+1800 FOR H= 1 TO 8
+1810 SUM = SUM+C(H)
+1820 NEXT H
+1830 POP=SUM
+1840 SUM =0
+1850 if pop >= 0 and pop <=1+(1-c(9)) then ng(x,y)=0
+1860 if pop >= 4 then ng(x,y)=0
+1870 if pop >= 3 and pop <= 4 then ng(x,y)=-pop+4
+1880 if pop  >=1+(1-c(9)) and pop <=3 then ng(x,y)=pop-(1+1-c(9))
+1890 if ng(x,y)>= 1 then ng(x,y)=1
+1900 set color 15-(oG(X,Y)*15)
+1910 box area x*7,x*7+5,yg-(y*7),yg-(y*7+5)
+1920 next y
+1930 next x
+1940 MAT OG=NG
+1950 round = round+1
+1970 next cx
+1980 next cy
+1990 goto 1640
+2000 END

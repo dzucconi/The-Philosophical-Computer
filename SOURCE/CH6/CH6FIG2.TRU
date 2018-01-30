@@ -1,0 +1,217 @@
+1000 ! Spatialized Prisoner's Dilemma: evolution to equilibrium dominated ty
+1001 ! by All D and Deceptive Defector
+1002 ! simple strategies competing in infinite games
+1003 ! Programming fundamentals were developed in research outlined in 
+1010 ! Patrick Grim, Gary Mar, and Paul St. Denis, THE PHILOSOPHICAL 
+1020 ! COMPUTER: EXPLORATORY ESSAYS IN PHILOSOPHICAL COMPUTER MODELING, 
+1030 ! Bradford Books/MIT Press.  You are free to use and adapt the program
+1040 ! for research purposes only, subject to the provision that this 
+1050 ! message be retained in its entirety as part of your program.
+1060 option nolet
+1070 rem: randomize
+1080 set window 0, 640, 0, 480
+1090 set color 15
+1100 box area 0, 640, 395, 490
+1110 box area 400,1000, 0, 480
+1120 let xg= 639
+1130 let yg= 479
+1140 let bxs = 6
+1150 set window 0,xg,0,yg
+1160 dim ng(64,64)
+1170 dim Og(64,64)
+1180 dim score(8,8)
+1190 dim left(64)
+1200 dim right(64)
+1210 dim upper(64)
+1220 dim lower(64)
+1230 dim gridscore(64,64)
+1240 DIM H(9)
+1250 DIM S(9)
+1260 FOR X = 1 TO 64
+1270 FOR Y = 1 TO 64
+1280 OG(X,Y)= INT(RND*8)+1
+1290 NEXT Y
+1300 NEXT X
+1310 ! Particular changes made in frozen configuration, exchanging TFT for
+1320 ! other strategies in crucial areas, but in same proportions:
+1330 let og(1,1)=7
+1340 let og(9,50) = 5
+1350 let og(10,49) = 4
+1360 let og(2,3) = 7
+1370 Let og(10,51) = 8
+1380 let  og(64,64)=7
+1390 let og(25,4)=4
+1400 let og(64,5)=7
+1410 let og(27,33)=3
+1420 let og(27,36)=1
+1430 let og(27,1)=7
+1440 let og(1,58)=7
+1450 let og(4,21)=8
+1460 let og(1,39)=7
+1470 let og(41,54)=2
+1480 let og(1,8)=7
+1490 let og(42,53)=6
+1500 let og(60,1)=7
+1510 let og(5,20)=2
+1520 let og(7,21)=5
+1530 let   og(45,31)=5
+1540 let og(47,33)=8
+1550 let og(15,64)=7
+1560 let og(1,16)=7
+1570 let og(64,8)=7
+1580 let og(32,12)=7
+1590 let og(25,38)=3
+1600 let og(26,36)=3
+1610 let og(27,42)=4
+1620 let og(57,7)=6
+1630 let og(57,12)=2
+1640 let og(58,14)=8
+1650 let og(59,8)=4
+1660 let og(40,32)=5
+1670 let og(40,34)=5
+1680 let og(39,31)=6
+1690 let og(8,1)=7
+1700 let og(43,64)=7
+1710 let og(64,45)=7
+1720 let og(22,18)=7
+1730 let og(25,30)=7
+1740 let og(30,30)=7
+1750 let og(44,8)=7
+1760 let og(19,64)=7
+1770 let og(26,64)=7
+1780 let og(29,64)=7
+1790 let og(10,64)=3
+1800 let og(27,52)=4
+1810 let og(41,55)=8
+1820 let og(33,32)=2
+1830 let og(33,31)=3
+1840 let og(56,1)=5
+1850 let og(51,16)=7
+1860 let og(54,16)=7
+1870 let og(1,30)=7
+1880 let og(1,36)=7
+1890 let og(18,62)=7
+1900 let og(55,1)=7
+1910 let og(1,48)=1
+1920 let og(1,34)=5
+1930 let og(1,36)=8
+1940 let og(28,62)=2
+1950 let og(29,62)=5
+1960 let og(35,50)=5
+1970 let og(38,19)=2
+1980 let og(38,20)=6
+1990 let og(38,21)=6
+2000 let og(1,48)=7
+2010 let og(32,1)=7
+2020 let og(33,19)=7
+2030 let og(14,34)=7
+2040 let og(16,35)=7
+2050 let og(47,44)=7
+2060 let og(11,6)=7
+2070 let og(35,41)=7
+2080 let og(8,37)=7
+2090 let og(27,39)=6
+2100 let og(28,39)=1
+2110 let og(29,39)=8
+2120 let og(27,1)=8
+2130 let og(7,64)=1
+2140 let og(57,64)=6
+2150 let og(34,9)=7
+2160 let og(11,30)=7
+2170 let og(37,10)=7
+2180 let og(37,38)=7
+2190 let og(52,6)=7
+2200 let og(57,63)=7
+2210 let og(35,11)=8
+2220 let og(36,11)=5
+2230 let og(52,5)=2
+2240 let og(52,4)=7
+2250 let og(2,64)=6
+2260 let og(3,64)=6
+2270 let og(63,2)=4
+2280 let og(1,1)=4
+2290 let og(25,40)=5
+2300 let og(25,39)=3
+2310 let og(4,63)=7
+2320 let og(6,63)=7
+2330 let og(54,3)=7
+2340 let og(64,1)=7
+2350 let og(25,41)=7
+2360 let og(25,38)=7
+2370 for n = 1 to 64
+2380 let left(n)=n-1
+2390 let right(n)=n+1
+2400 let upper(n)=n-1
+2410 let lower(n)=n+1
+2420 next n
+2430 let left(1)=64
+2440 let right(64)=1
+2450 let upper(1)=64
+2460 let lower(64)=1
+2470 for x = 1 to 8
+2480 for y = 1 to 8
+2490 read score(x,y)
+2500 next Y
+2510 NEXT X
+2520 for x = 1 to 64
+2530 for y = 1 to 64
+2540 let Nscore=score(og(x,y),og(x,upper(y)))
+2550 let Sscore=score(og(x,y),og(x,lower(y)))
+2560 let Wscore=score(og(x,y),og(left(x),y))
+2570 let Escore=score(og(x,y),og(right(x),y))
+2580 let NWscore=score(og(x,y),og(left(x),upper(y)))
+2590 let NEscore=score(og(x,y),og(right(x),upper(y)))
+2600 let SWscore=score(og(x,y),og(left(x),lower(y)))
+2610 let SEscore=score(og(x,y),og(right(x),upper(y)))
+2620 gridscore(x,y)=Nscore+Sscore+Escore+Wscore+NWscore+NEscore+SWscore+SEscore
+2630 next y
+2640 next x
+2650 for x = 1 to 64
+2660 for y = 1 to 64
+2670 h(1)=(gridscore(left(x),upper(y)))
+2680 s(1)=og(left(x),upper(y))
+2690 h(2)=(gridscore(right(x),upper(y)))
+2700 s(2)=og(right(x),upper(y))
+2710 h(3)=(gridscore(left(x),lower(y)))
+2720 s(3)=og(left(x),lower(y))
+2730 h(4)=(gridscore(right(x),lower(y)))
+2740 s(4)=og(right(x),lower(y))
+2750 h(5)=(gridscore(left(x),y))
+2760 s(5)=og(left(x),y)
+2770 h(6)=(gridscore(x,upper(y)))
+2780 s(6)=og(x,upper(y))
+2790 h(7)=(gridscore(right(x),y))
+2800 s(7)=og(right(x),y)
+2810 h(8)=(gridscore(x,lower(y)))
+2820 s(8)=og(x,lower(y))
+2830 h(9)=(gridscore(x,y))
+2840 s(9)=og(x,y)
+2850 st = INT(Rnd*8)+1
+2860 FOR R= 1 TO ST-1
+2870 IF H(R)<HIGH THEN 2900
+2880 HIGH=H(R)
+2890 WINSTRAT=S(R)
+2900 NEXT R
+2910 FOR R = ST TO 8
+2920 IF H(R)<HIGH THEN 2950
+2930 HIGH=H(R)
+2940 WINSTRAT=S(R)
+2950 NEXT R
+2960 if h(9) >=high then winstrat=s(9)
+2970 NG(X,Y)=WINSTRAT
+2980 HIGH=0
+2990 set color Og(x,y)+1
+3000 box area x*bxs,x*bxs+ (bxs-2), y*bxs, y*bxs+(bxs-2)
+3010 next y
+3020 next x
+3030 MAT OG=NG
+3060 GOTO 2520
+3070 data 1,5,1,5,1,5,1,5
+3080 data 0,2,2.25,5,0,5,2.25,5
+3090 data 1,2.25,1,3,1,2.25,2.5,3
+3100 data 0,0,3,3,0,0,3,3
+3110 data 1,5,1,5,1,5,1,5
+3120 data 0,0,2.25,5,0,2,2.25,5
+3130 data 1,2.25,2.5,3,1,2.25,3,3
+3140 data 0,0,3,3,0,0,3,3
+3150 END

@@ -1,0 +1,114 @@
+1000 REM Evolution of randomized array of 8 simple strategies
+1010 REM Programming elements included here were developed in background 
+1020 REM research for Patrick Grim, Gary Mar, and Paul St. Denis, THE
+1030 REM PHILOSOPHICAL COMPUTER: EXPLORATORY ESSAYS IN PHILOSOPHICAL 
+1040 REM COMPUTER MODELING, Bradford Books/MIT press.  You are free to use 
+1050 REM and adapt this program for research purposes only, subject to the 
+1060 REM provision that this message be retained in its entirety as part of
+1061 REM your program. 
+1070 option nolet
+1071 REM This program is genuinely randomized each time.  In order to 
+1072 REM obtain a workably repeatable pattern rem out this line:
+1080 randomize
+1090 set window 0,640,0,480
+1100 let xg= 639
+1110 let yg= 479
+1130 bxs = 6
+1140 set color 15
+1150 box area 0,640,395,490
+1160 box area 400,1000,0,480
+1170 set window 0,xg,0,yg
+1190 dim ng(64,64)
+1200 dim Og(64,64)
+1210 dim score(8,8)
+1220 dim left(64)
+1230 dim right(64)
+1240 dim upper(64)
+1250 dim lower(64)
+1260 dim gridscore(64,64)
+1270 DIM H(9)
+1280 DIM S(9)
+1290 FOR X = 1 TO 64
+1300 FOR Y = 1 TO 64
+1310 OG(X,Y)= INT(RND*8)+1
+1320 NEXT Y
+1330 NEXT X
+1340 for n = 1 to 64
+1350 let left(n)=n-1
+1360 let right(n)=n+1
+1370 let lower(n)=n-1
+1380 let upper(n)=n+1
+1390 next n
+1400 let left(1)=64
+1410 let right(64)=1
+1420 let lower(1)=64
+1430 let upper(64)=1
+1440 for x = 1 to 8
+1450 for y = 1 to 8
+1460 read score(x,y)
+1470 next Y
+1480 NEXT X
+1490 for x = 1 to 64
+1500 for y = 1 to 64
+1510 let Sscore=score(og(x,y),og(x,lower(y)))
+1520 let Nscore=score(og(x,y),og(x,upper(y)))
+1530 let Wscore=score(og(x,y),og(left(x),y))
+1540 let Escore=score(og(x,y),og(right(x),y))
+1550 let SWscore=score(og(x,y),og(left(x),lower(y)))
+1560 let NWscore=score(og(x,y),og(left(x),upper(y)))
+1570 let SEscore=score(og(x,y),og(right(x),lower(y)))
+1580 let NEscore=score(og(x,y),og(right(x),upper(y)))
+1590 gridscore(x,y)=Nscore+Sscore+Escore+Wscore+NWscore+NEscore+SWscore+SEscore
+1600 next y
+1610 next x
+1620 for x = 1 to 64
+1630 for y = 1 to 64
+1640 h(1)=gridscore(x,upper(y))
+1650 s(1)=og(x,upper(y))
+1660 h(2)=gridscore(right(x),upper(y))
+1670 s(2)=og(right(x),upper(y))
+1680 h(3)=gridscore(right(x),y)
+1690 s(3)=og(right(x),y)
+1700 h(4)=gridscore(right(x),lower(y))
+1710 s(4)=og(right(x),lower(y))
+1720 h(5)=gridscore(x,lower(y))
+1730 s(5)=og(x,lower(y))
+1740 h(6)=gridscore(left(x),lower(y))
+1750 s(6)=og(left(x),lower(y))
+1760 h(7)=gridscore(left(x),y)
+1770 s(7)=og(left(x),y)
+1780 h(8)=gridscore(left(x),upper(y))
+1790 s(8)=og(left(x),upper(y))
+1800 h(9)=gridscore(x,y)
+1810 s(9)=og(x,y)
+1820 st = INT(Rnd*8)+1
+1830 FOR R = ST TO 8
+1840 IF H(R)<HIGH THEN 1870
+1850 HIGH=H(R)
+1860 WINSTRAT=S(R)
+1870 NEXT R
+1880 for r=1 to st-1
+1890 if h(r)<high then 1920
+1900 high=h(r)
+1910 winstrat=s(r)
+1920 next r
+1930 if h(9) >=high then winstrat=s(9)
+1940 NG(X,Y)=WINSTRAT
+1950 HIGH=0
+1960 set color Og(x,y)+1
+1970 box area x*bxs,x*bxs+(bxs-2),y*bxs,y*bxs+(bxs-2)
+1980 next y
+1990 next x
+2000 MAT OG=NG
+2010 z = 0
+2040 GOTO 1490
+2050 data 200,996,200,996,204,1000,204,1000
+2060 data 1,400,450,994,6,1000,450,1000
+2070 data 200,450,200,600,203,450,500,602
+2080 data 1,4,595,598,5,8,599,602
+2090 data 199,991,203,995,202,994,206,998
+2100 data 0,0,450,993,4,400,450,998
+2110 data 199,450,500,599,201,450,600,600
+2120 data 0,0,597,597,3,3,600,600
+2170 return
+2180 END
